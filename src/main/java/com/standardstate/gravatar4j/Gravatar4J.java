@@ -31,9 +31,16 @@ import java.security.MessageDigest;
  */
 public class Gravatar4J {
 
+    // http://www.gravatar.com/avatar/00000000000000000000000000000000?s=12&d=http://jsonlint.com/c/images/logo_arc90.png
+    // String url = "http://example.com/query?q=" + URLEncoder.encode("random word £500 bank $", "ISO-8859-1"); // Or "UTF-8"
+    
+    public final static String SIZE_PARAMETER = "s";
+    public final static int MAX_SIZE = 2048;
+    public final static int MIN_SIZE = 1;
+    
     public final static String JPG = "jpg";
     public final static String PNG = "png";
-    
+        
     private final static String GRAVATAR_URL_PREFIX = "http://www.gravatar.com/avatar/";
     
     public static String getURL(final String email) {        
