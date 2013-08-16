@@ -1,6 +1,7 @@
 package com.standardstate.gravatar4j;
 
-import java.security.MessageDigest;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
  * The MIT License (MIT)
@@ -29,23 +30,33 @@ import java.security.MessageDigest;
  * @version 1.0
  *
  */
-public class Gravatar4J {
+public class Gravatar4JTest {
 
-    public final static String JPG = "jpg";
-    public final static String PNG = "png";
+    private final static String TEST_EMAIL = "MyEmailAddress@example.com ";
+    private final static String TEST_HASH = "0bc83cb571cd1c50ba6f3e8a78ef1346";
     
-    private final static String GRAVATAR_URL_PREFIX = "http://www.gravatar.com/avatar/";
-    
-    public static String getURL(final String email) {        
-        return GRAVATAR_URL_PREFIX + MD5Util.md5Hex(email.trim().toLowerCase());
-    }    
-    
-    public static String getJPGURL(final String email) {
-        return getURL(email) + "." + JPG;
+    @Test
+    public void getURLTest() {
+        
+        final String url = Gravatar4J.getURL(TEST_EMAIL);
+        assertEquals("getAvatarURLSuccess", "http://www.gravatar.com/avatar/" + TEST_HASH, url);
+        
     }
     
-    public static String getPNGURL(final String email) {
-        return getURL(email) + "." + PNG;
+    @Test
+    public void getJPGURLTest() {
+        
+        final String url = Gravatar4J.getJPGURL(TEST_EMAIL);
+        assertEquals("getAvatarURLSuccess", "http://www.gravatar.com/avatar/" + TEST_HASH + ".jpg", url);
+        
+    }
+    
+    @Test
+    public void getPNGURLTest() {
+        
+        final String url = Gravatar4J.getPNGURL(TEST_EMAIL);
+        assertEquals("getAvatarURLSuccess", "http://www.gravatar.com/avatar/" + TEST_HASH + ".png", url);
+        
     }
     
 }
