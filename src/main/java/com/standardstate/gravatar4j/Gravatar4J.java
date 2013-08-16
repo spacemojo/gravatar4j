@@ -28,20 +28,32 @@ import java.security.MessageDigest;
  * @author Fred Leclerc
  * @version 1.0
  *
+ * Reference : http://en.gravatar.com/site/implement/images/ 
+ * 
  */
 public class Gravatar4J {
 
     // http://www.gravatar.com/avatar/00000000000000000000000000000000?s=12&d=http://jsonlint.com/c/images/logo_arc90.png
     // String url = "http://example.com/query?q=" + URLEncoder.encode("random word £500 bank $", "ISO-8859-1"); // Or "UTF-8"
     
-    public final static String SIZE_PARAMETER = "s";
-    public final static int MAX_SIZE = 2048;
-    public final static int MIN_SIZE = 1;
+    private final static String DEFAULT_PARAMETER = "d";
     
-    public final static String JPG = "jpg";
-    public final static String PNG = "png";
+    public final static String DEFAULT_404 = "404";
+    public final static String DEFAULT_MYSTERY_MAN = "mm";
+    public final static String DEFAULT_IDENTICON = "identicon";
+    
+    private final static String SIZE_PARAMETER = "s";
+    private final static int DEFAULT_SIZE = 80;
+    private final static int MAX_SIZE = 2048;
+    private final static int MIN_SIZE = 1;
+    
+    private final static String JPG = "jpg";
+    private final static String PNG = "png";
         
     private final static String GRAVATAR_URL_PREFIX = "http://www.gravatar.com/avatar/";
+    
+    private String defaultImage = null;
+    private int size = DEFAULT_SIZE;
     
     public static String getURL(final String email) {        
         return GRAVATAR_URL_PREFIX + MD5Util.md5Hex(email.trim().toLowerCase());
