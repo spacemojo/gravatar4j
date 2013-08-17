@@ -36,35 +36,41 @@ public class Gravatar4J {
     // http://www.gravatar.com/avatar/00000000000000000000000000000000?s=12&d=http://jsonlint.com/c/images/logo_arc90.png
     // String url = "http://example.com/query?q=" + URLEncoder.encode("random word £500 bank $", "ISO-8859-1"); // Or "UTF-8"
     
-    private final static String DEFAULT_PARAMETER = "d";
-    
+    private final static String PARAMETER_DEFAULT = "d";
+    private final static String PARAMETER_FORCE_DEFAULT = "f";
+
     public final static String DEFAULT_404 = "404";
     public final static String DEFAULT_MYSTERY_MAN = "mm";
     public final static String DEFAULT_IDENTICON = "identicon";
+    public final static String DEFAULT_MONSTERID = "monsterid";
+    public final static String DEFAULT_WAVATAR = "wavatar";
+    public final static String DEFAULT_RETRO = "retro";
+    public final static String DEFAULT_BLANK = "blank";
     
-    private final static String SIZE_PARAMETER = "s";
-    private final static int DEFAULT_SIZE = 80;
-    private final static int MAX_SIZE = 2048;
-    private final static int MIN_SIZE = 1;
-    
+    private final static String PARAMETER_SIZE = "s";
+    private final static int SIZE_DEFAULT = 80;
+    private final static int SIZE_MAX = 2048;
+    private final static int SIZE_MIN = 1;
+
+    private final static String PARAMETER_RATING = "r";
+    private final static String RATING_G = "g";
+    private final static String RATING_PG = "pg";
+    private final static String RATING_R = "r";
+    private final static String RATING_X = "x";
+
     private final static String JPG = "jpg";
     private final static String PNG = "png";
         
     private final static String GRAVATAR_URL_PREFIX = "http://www.gravatar.com/avatar/";
+    private final static String GRAVATAR_SECURE_URL_PREFIX = "https://secure.gravatar.com/";
     
     private String defaultImage = null;
-    private int size = DEFAULT_SIZE;
-    
+    private int size = SIZE_DEFAULT;
+
+    public Gravatar4J() { }
+
     public static String getURL(final String email) {        
         return GRAVATAR_URL_PREFIX + MD5Util.md5Hex(email.trim().toLowerCase());
-    }    
-    
-    public static String getJPGURL(final String email) {
-        return getURL(email) + "." + JPG;
-    }
-    
-    public static String getPNGURL(final String email) {
-        return getURL(email) + "." + PNG;
     }
     
 }

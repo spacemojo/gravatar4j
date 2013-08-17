@@ -34,28 +34,18 @@ public class Gravatar4JTest {
 
     private final static String TEST_EMAIL = "MyEmailAddress@example.com ";
     private final static String TEST_HASH = "0bc83cb571cd1c50ba6f3e8a78ef1346";
-    
+
+    @Test
+    public void constructorTest() {
+        final Gravatar4J g4j = new Gravatar4J();
+        assertNotNull("Gravatar4JTest.constructorTest", g4j);
+    }
+
     @Test
     public void getURLTest() {
         
         final String url = Gravatar4J.getURL(TEST_EMAIL);
         assertEquals("getAvatarURLSuccess", "http://www.gravatar.com/avatar/" + TEST_HASH, url);
-        
-    }
-    
-    @Test
-    public void getJPGURLTest() {
-        
-        final String url = Gravatar4J.getJPGURL(TEST_EMAIL);
-        assertEquals("getAvatarURLSuccess", "http://www.gravatar.com/avatar/" + TEST_HASH + ".jpg", url);
-        
-    }
-    
-    @Test
-    public void getPNGURLTest() {
-        
-        final String url = Gravatar4J.getPNGURL(TEST_EMAIL);
-        assertEquals("getAvatarURLSuccess", "http://www.gravatar.com/avatar/" + TEST_HASH + ".png", url);
         
     }
     
