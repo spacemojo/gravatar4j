@@ -38,6 +38,8 @@ public class Gravatar4J {
     
     private final static String PARAMETER_DEFAULT = "d";
     private final static String PARAMETER_FORCE_DEFAULT = "f";
+    private final static String FORCE_DEFAULT_YES = "y";
+    private final static String FORCE_DEFAULT_NO = "n";
 
     public final static String DEFAULT_404 = "404";
     public final static String DEFAULT_MYSTERY_MAN = "mm";
@@ -53,23 +55,104 @@ public class Gravatar4J {
     private final static int SIZE_MIN = 1;
 
     private final static String PARAMETER_RATING = "r";
-    private final static String RATING_G = "g";
-    private final static String RATING_PG = "pg";
-    private final static String RATING_R = "r";
-    private final static String RATING_X = "x";
+    public final static String RATING_G = "g";
+    public final static String RATING_PG = "pg";
+    public final static String RATING_R = "r";
+    public final static String RATING_X = "x";
 
-    private final static String JPG = "jpg";
-    private final static String PNG = "png";
+    private final static String EXTENSION_JPG = "jpg";
+    private final static String EXTENSION_PNG = "png";
         
     private final static String GRAVATAR_URL_PREFIX = "http://www.gravatar.com/avatar/";
-    private final static String GRAVATAR_SECURE_URL_PREFIX = "https://secure.gravatar.com/";
-    
+    private final static String GRAVATAR_SECURE_URL_PREFIX = "https://secure.gravatar.com/avatar/";
+
+    private String email = null;
     private String defaultImage = null;
+    private String forceDefault = FORCE_DEFAULT_NO;
     private int size = SIZE_DEFAULT;
+    private String rating = RATING_G;
+    private String extension = null;
+    private boolean https = false;
 
-    public Gravatar4J() { }
+    public Gravatar4J(final String email) {
+        this.email = email;
+    }
 
-    public static String getURL(final String email) {        
+    public String createURL() {
+        return (this.https) ? GRAVATAR_SECURE_URL_PREFIX : GRAVATAR_URL_PREFIX + MD5Util.md5Hex(email.trim().toLowerCase()) + createQueryString();
+    }
+
+    public String createQueryString() {
+
+        return "";
+
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getDefaultImage() {
+        return defaultImage;
+    }
+
+    public void setDefaultImage(final String defaultImage) {
+        this.defaultImage = defaultImage;
+    }
+
+    public String getExtension() {
+        return extension;
+    }
+
+    public void setExtension(final String extension) {
+        this.extension = extension;
+    }
+
+    public String getForceDefault() {
+        return forceDefault;
+    }
+
+    public void setForceDefault(final String forceDefault) {
+        this.forceDefault = forceDefault;
+    }
+
+    public boolean isHttps() {
+        return https;
+    }
+
+    public void setHttps(final boolean https) {
+        this.https = https;
+    }
+
+    public String getRating() {
+        return rating;
+    }
+
+    public void setRating(final String rating) {
+        this.rating = rating;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(final int size) {
+        this.size = size;
+    }
+
+    /**
+     * The quick and easy way to get started, this produces the url with all default
+     * parameters with the passed email. If there is no image related to the passed
+     * email, the default gravatar image will be displayed instead.
+     *
+     * @param email The email used to produce the url
+     * @return The url to fetch the image
+     */
+    public static String createURL(final String email) {
         return GRAVATAR_URL_PREFIX + MD5Util.md5Hex(email.trim().toLowerCase());
     }
     

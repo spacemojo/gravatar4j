@@ -36,16 +36,20 @@ public class Gravatar4JTest {
     private final static String TEST_HASH = "0bc83cb571cd1c50ba6f3e8a78ef1346";
 
     @Test
-    public void constructorTest() {
-        final Gravatar4J g4j = new Gravatar4J();
-        assertNotNull("Gravatar4JTest.constructorTest", g4j);
+    public void createURLWithInstanceTest01() {
+        
+        final Gravatar4J g4j = new Gravatar4J(TEST_EMAIL);
+
+        // create default url
+        assertEquals("createURLWithInstanceTest", TEST_EMAIL, g4j.getEmail());
+
     }
 
     @Test
-    public void getURLTest() {
+    public void createURLTest() {
         
-        final String url = Gravatar4J.getURL(TEST_EMAIL);
-        assertEquals("getAvatarURLSuccess", "http://www.gravatar.com/avatar/" + TEST_HASH, url);
+        final String url = Gravatar4J.createURL(TEST_EMAIL);
+        assertEquals("createURLTest", "http://www.gravatar.com/avatar/" + TEST_HASH, url);
         
     }
     
