@@ -49,6 +49,7 @@ public class Gravatar4JTest {
     public void createURLTest() {
         
         final String url = Gravatar4J.createURL(TEST_EMAIL);
+        System.out.println(Gravatar4J.createURL("frederic.leclerc@aheeva.com"));
         assertEquals("createURLTest", "http://www.gravatar.com/avatar/" + TEST_HASH, url);
         
     }

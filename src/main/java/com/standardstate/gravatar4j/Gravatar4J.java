@@ -1,7 +1,5 @@
 package com.standardstate.gravatar4j;
 
-import java.security.MessageDigest;
-
 /**
  * The MIT License (MIT)
  *
@@ -84,8 +82,16 @@ public class Gravatar4J {
 
     public String createQueryString() {
 
-        return "";
+        final StringBuilder builder = new StringBuilder("?");
+        
+        builder.append(createSizeParameterAndValue());
+        
+        return builder.toString();
 
+    }
+    
+    public String createSizeParameterAndValue() {
+        return "s=" + this.size;
     }
 
     public String getEmail() {
