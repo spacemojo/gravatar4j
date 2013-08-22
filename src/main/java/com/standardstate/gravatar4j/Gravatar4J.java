@@ -29,40 +29,40 @@ package com.standardstate.gravatar4j;
  * Reference : http://en.gravatar.com/site/implement/images/ 
  * 
  */
-public class Gravatar4J {
+public final class Gravatar4J {
 
     // http://www.gravatar.com/avatar/00000000000000000000000000000000?s=12&d=http://jsonlint.com/c/images/logo_arc90.png
     // String url = "http://example.com/query?q=" + URLEncoder.encode("random word £500 bank $", "ISO-8859-1"); // Or "UTF-8"
     
-    private final static String PARAMETER_DEFAULT = "d";
-    private final static String PARAMETER_FORCE_DEFAULT = "f";
-    private final static String FORCE_DEFAULT_YES = "y";
-    private final static String FORCE_DEFAULT_NO = "n";
+    private static final String PARAMETER_FORCE_DEFAULT = "f";
+    public static final String FORCE_DEFAULT_YES = "y";
+    public static final String FORCE_DEFAULT_NO = "n";
 
-    public final static String DEFAULT_404 = "404";
-    public final static String DEFAULT_MYSTERY_MAN = "mm";
-    public final static String DEFAULT_IDENTICON = "identicon";
-    public final static String DEFAULT_MONSTERID = "monsterid";
-    public final static String DEFAULT_WAVATAR = "wavatar";
-    public final static String DEFAULT_RETRO = "retro";
-    public final static String DEFAULT_BLANK = "blank";
+    private static final String PARAMETER_DEFAULT = "d";
+    public static final String DEFAULT_404 = "404";
+    public static final String DEFAULT_MYSTERY_MAN = "mm";
+    public static final String DEFAULT_IDENTICON = "identicon";
+    public static final String DEFAULT_MONSTERID = "monsterid";
+    public static final String DEFAULT_WAVATAR = "wavatar";
+    public static final String DEFAULT_RETRO = "retro";
+    public static final String DEFAULT_BLANK = "blank";
     
-    private final static String PARAMETER_SIZE = "s";
-    private final static int SIZE_DEFAULT = 80;
-    private final static int SIZE_MAX = 2048;
-    private final static int SIZE_MIN = 1;
+    private static final String PARAMETER_SIZE = "s";
+    private static final int SIZE_DEFAULT = 80;
+    private static final int SIZE_MAX = 2048;
+    private static final int SIZE_MIN = 1;
 
-    private final static String PARAMETER_RATING = "r";
-    public final static String RATING_G = "g";
-    public final static String RATING_PG = "pg";
-    public final static String RATING_R = "r";
-    public final static String RATING_X = "x";
+    private static final String PARAMETER_RATING = "r";
+    public static final String RATING_G = "g";
+    public static final String RATING_PG = "pg";
+    public static final String RATING_R = "r";
+    public static final String RATING_X = "x";
 
-    private final static String EXTENSION_JPG = "jpg";
-    private final static String EXTENSION_PNG = "png";
+    private static final String EXTENSION_JPG = "jpg";
+    private static final String EXTENSION_PNG = "png";
         
-    private final static String GRAVATAR_URL_PREFIX = "http://www.gravatar.com/avatar/";
-    private final static String GRAVATAR_SECURE_URL_PREFIX = "https://secure.gravatar.com/avatar/";
+    private static final String GRAVATAR_URL_PREFIX = "http://www.gravatar.com/avatar/";
+    private static final String GRAVATAR_SECURE_URL_PREFIX = "https://secure.gravatar.com/avatar/";
 
     private String email = null;
     private String defaultImage = null;
@@ -84,16 +84,27 @@ public class Gravatar4J {
 
         final StringBuilder builder = new StringBuilder("?");
         
-        builder.append(createSizeParameterAndValue());
+        builder.append(createSizeParameterAndValue()).append("&");
         
         return builder.toString();
 
     }
     
     public String createSizeParameterAndValue() {
-        return "s=" + this.size;
+        if(this.size < SIZE_MIN || this.size > SIZE_MAX) {
+            throw new Gravatar4JException("Size invalid : " + this.size + ", value must be between " + SIZE_MIN + " and " + SIZE_MAX + " inclusively.");
+        }
+        return PARAMETER_SIZE + "=" + this.size;
     }
 
+    public String createForceDefaultParameterAndValue() {
+        if(FORCE_DEFAULT_NO.equals(this.forceDefault) || FORCE_DEFAULT_YES.equals(this.forceDefault)) {
+            return PARAMETER_FORCE_DEFAULT + "=" + this.forceDefault;
+        }else{
+            throw new Gravatar4JException("Parameter \"f\" (forceDefault) must be " + FORCE_DEFAULT_YES + " or " + FORCE_DEFAULT_NO + ", actual value is : \"" + this.forceDefault + "\"");
+        }
+    }
+    
     public String getEmail() {
         return email;
     }

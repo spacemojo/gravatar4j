@@ -2,6 +2,8 @@ package com.standardstate.gravatar4j;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Rule;
+import org.junit.rules.ExpectedException;
 
 /**
  * The MIT License (MIT)
@@ -35,21 +37,82 @@ public class Gravatar4JTest {
     private final static String TEST_EMAIL = "MyEmailAddress@example.com ";
     private final static String TEST_HASH = "0bc83cb571cd1c50ba6f3e8a78ef1346";
 
+    @Rule
+    public ExpectedException exception = ExpectedException.none();
+    
     @Test
     public void createURLWithInstanceTest01() {
         
         final Gravatar4J g4j = new Gravatar4J(TEST_EMAIL);
 
         // create default url
-        assertEquals("createURLWithInstanceTest", TEST_EMAIL, g4j.getEmail());
+        assertEquals("createURLWithInstanceTest -> email", TEST_EMAIL, g4j.getEmail());
 
+        // size parameter
+        assertEquals("createURLWithInstanceTest -> size", g4j.createSizeParameterAndValue(), "s=80");
+        g4j.setSize(120);
+        assertEquals("createURLWithInstanceTest -> size", g4j.createSizeParameterAndValue(), "s=120");
+        
+        
+        
     }
 
+    @Test
+    public void createSizeParameterAndValueTest() {
+
+        final Gravatar4J g4j = new Gravatar4J(TEST_EMAIL);
+
+        // size parameter
+        assertEquals("createURLWithInstanceTest -> size", g4j.createSizeParameterAndValue(), "s=80");
+        g4j.setSize(120);
+        assertEquals("createURLWithInstanceTest -> size", g4j.createSizeParameterAndValue(), "s=120");
+
+        exception.expect(RuntimeException.class);
+        g4j.setSize(0);
+        g4j.createSizeParameterAndValue();
+
+        exception.expect(RuntimeException.class);
+        g4j.setSize(-1);
+        g4j.createSizeParameterAndValue();
+        
+        exception.expect(RuntimeException.class);
+        g4j.setSize(2049);
+        g4j.createSizeParameterAndValue();
+        
+    }
+    
+    @Test
+    public void createForceDefaultParameterAndValueTest() {
+
+        final Gravatar4J g4j = new Gravatar4J(TEST_EMAIL);
+        
+        // force default parameter
+        assertEquals("createForceDefaultParameterAndValue -> default", "f=n", g4j.createForceDefaultParameterAndValue());
+        
+        g4j.setForceDefault("");
+        exception.expect(RuntimeException.class);
+        g4j.createForceDefaultParameterAndValue();
+        
+        g4j.setForceDefault(null);
+        exception.expect(RuntimeException.class);
+        g4j.createForceDefaultParameterAndValue();
+        
+        g4j.setForceDefault("t");
+        exception.expect(RuntimeException.class);
+        g4j.createForceDefaultParameterAndValue();
+        
+        g4j.setForceDefault(Gravatar4J.FORCE_DEFAULT_YES);
+        assertEquals("createForceDefaultParameterAndValue -> default", "f=y", g4j.createForceDefaultParameterAndValue());
+        
+        g4j.setForceDefault(Gravatar4J.FORCE_DEFAULT_NO);
+        assertEquals("createForceDefaultParameterAndValue -> default", "f=n", g4j.createForceDefaultParameterAndValue());
+        
+    }
+    
     @Test
     public void createURLTest() {
         
         final String url = Gravatar4J.createURL(TEST_EMAIL);
-        System.out.println(Gravatar4J.createURL("frederic.leclerc@aheeva.com"));
         assertEquals("createURLTest", "http://www.gravatar.com/avatar/" + TEST_HASH, url);
         
     }
